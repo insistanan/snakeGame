@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Random;
@@ -55,8 +56,10 @@ public class MPanel extends JPanel implements KeyListener, ActionListener {
     private void loadBGM() {
         try {
             bgm = AudioSystem.getClip();
-            InputStream is = this.getClass().getClassLoader().getResourceAsStream("bgm/bgm2.wav");
-            AudioInputStream ais = AudioSystem.getAudioInputStream(is);
+            InputStream is = this.getClass().getResourceAsStream("/bgm/bgm2.wav");
+            //添加一个缓存，打包成jar才能播放音乐
+            BufferedInputStream buffer = new BufferedInputStream(is);
+            AudioInputStream ais = AudioSystem.getAudioInputStream(buffer);
             bgm.open(ais);
         } catch (LineUnavailableException e) {
             e.printStackTrace();
